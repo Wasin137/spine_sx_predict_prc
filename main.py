@@ -1,7 +1,9 @@
 import streamlit as st
 
 # Def for calculate
-def calculate_score(bmi, asa, hct, laminec, tlif, sacral):
+def calculate_score(weight, height, asa, hct, laminec, tlif, sacral):
+    # calculate bmi
+    bmi = weight/((height/100)**2)
     ##Classified score group
     if bmi <= 25:
         bmi_s = 0
@@ -15,16 +17,17 @@ def calculate_score(bmi, asa, hct, laminec, tlif, sacral):
         hct_s = 0
     else:
         hct_s = -3.5
-    if laminec <= 1:
-        laminec_s = 0
-    elif laminec == 2:
-        laminec_s = 4
-    else:
+    if isinstance(laminec, str):
         laminec_s = 10
-    if tlif <= 1:
-        tlif_s = 0
     else:
+        if laminec <= 1:
+            laminec_s = 0
+        elif laminec == 2:
+            laminec_s = 4
+    if isinstance(tlif, str):
         tlif_s = 3
+    else:
+        tlif_s = 0
     if sacral == 'no':
         sacral_s = 0
     else:
@@ -34,7 +37,7 @@ def calculate_score(bmi, asa, hct, laminec, tlif, sacral):
     score_prc = bmi_s + asa_s + hct_s + laminec_s + tlif_s + sacral_s
     if score_prc <= 6:
         n_prc = 1
-    elif score_prc >= 6.5:
+    else:
         n_prc = 2
     return n_prc, score_prc
 
@@ -59,13 +62,12 @@ with col1:
 
 with col2:
     hct = st.number_input('Pre-op Hct (%)')
-    laminec = st.radio('Laminectomy (level)', [0, 1, 2 , 'more than 3'])
+    laminec = st.radio('Laminectomy (level)', [0, 1, 2, 'more than 3'])
     tlif = st.radio('TLIF (level)',[0, 1, 'more than 1'])
     sacral = st.radio('ผ่าถึงระดับ Sacral (Sacral inclusion)', ['no', 'yes'])
 
 if st.button('Make prediction'):
-    bmi = weight/((height/100)**2)
-    prc, output_score = calculate_score(bmi, asa, hct, laminec, tlif, sacral)
+    prc, output_score = calculate_score(weight, height, asa, hct, laminec, tlif, sacral)
     st.subheader(f'HN: {hn}')
     st.write(f'Suggest Crossmatching :red[**{prc}**] unit')
     st.write(f'Calculated Score for this patient is: {output_score}')
