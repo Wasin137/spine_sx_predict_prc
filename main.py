@@ -1,5 +1,7 @@
 import streamlit as st
 
+logo_path = 'logo.png'
+
 # Def for calculate
 def calculate_score(weight, height, asa, hct, laminec, tlif, sacral):
     # calculate bmi
@@ -43,6 +45,7 @@ def calculate_score(weight, height, asa, hct, laminec, tlif, sacral):
     
 
 # Part of Web
+st.image(logo_path)
 st.header('Preoperative preparation PRC (Pack red cell) in elective lumbar spine fusion')
 st.title('Hatyai Hospital')
 
