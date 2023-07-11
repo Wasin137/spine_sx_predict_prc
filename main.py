@@ -40,11 +40,11 @@ def calculate_score(weight, height, asa, hct, laminec, tlif, sacral):
     else:
         n_prc = 2
     return n_prc, score_prc
-
+    
 
 # Part of Web
-st.header('Lumbar spine surgery PRC Prediction')
-st.caption('อ.นายแพทย์ชัชวาลย์ ไพโรจน์')
+st.header('Preoperative preparation PRC (Pack red cell) in elective lumbar spine fusion')
+st.title('Hatyai Hospital')
 
 with st.sidebar:
     st.write('**Predictor Model V.1**')
@@ -56,18 +56,19 @@ with st.sidebar:
 col1, col2 = st.columns(2)
 with col1:
     hn = st.text_input('HN')
-    weight = st.number_input('Weight (kg)')
-    height = st.number_input('Height (cm.)')
+    weight = st.number_input('Weight (kg)', min_value=1, value=50)
+    height = st.number_input('Height (cm.)', min_value=1, value=165)
     asa = st.radio('ASA Classification', [1, 2, 3, 4 ,5 ,6])
 
 with col2:
-    hct = st.number_input('Pre-op Hct (%)')
+    hct = st.number_input('Pre-op Hct (%)', min_value=0, max_value=100, value=30)
     laminec = st.radio('Laminectomy (level)', [0, 1, 2, 'more than 3'])
     tlif = st.radio('TLIF (level)',[0, 1, 'more than 1'])
     sacral = st.radio('ผ่าถึงระดับ Sacral (Sacral inclusion)', ['no', 'yes'])
 
-if st.button('Make prediction'):
+if st.button('Preoperative PRC preparation suggestion'):
     prc, output_score = calculate_score(weight, height, asa, hct, laminec, tlif, sacral)
     st.subheader(f'HN: {hn}')
     st.write(f'Suggest Crossmatching :red[**{prc}**] unit')
-    st.write(f'Calculated Score for this patient is: {output_score}')
+    st.write(f'Calculated Score for this patient is: :blue[**{output_score}**]')
+    st.write(':red[*if user need more than suggestion advice type-screening PRC]')
