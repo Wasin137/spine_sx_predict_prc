@@ -47,7 +47,7 @@ def calculate_score(weight, height, asa, hct, laminec, tlif, sacral):
 # Part of Web
 st.image(logo_path)
 st.header('Preoperative preparation PRC (Pack red cell) in elective lumbar spine fusion')
-st.title('Hatyai Hospital')
+st.header('Hatyai Hospital')
 
 with st.sidebar:
     st.write('**Predictor Model V.1**')
